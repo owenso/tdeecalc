@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/owenso/tdeecalc#readme",
   "dependencies": {
-    "mfp": "^0.5.6"
+    "mfp": "^0.5.6",
+    "moment": "^2.14.1"
   }
 }
