@@ -1,8 +1,10 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS nutrition CASCADE;
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE users(
-	id SERIAL PRIMARY KEY,
+	id uuid PRIMARY KEY,
 	username VARCHAR(255),
 	firstname VARCHAR(255),
 	password VARCHAR(255),
@@ -12,7 +14,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE nutrition(
-	id SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY ,
     calories INTEGER,
     carbs INTEGER,
     fat INTEGER,
@@ -22,7 +24,7 @@ CREATE TABLE nutrition(
     sugar INTEGER,
     fiber INTEGER,
     date_entered DATE,
-	users_id INTEGER references users
+	users_id uuid references users
 );
 
-INSERT INTO users (username, firstname, password, lastname, email, mfp_username) VALUES ('Owens', 'Owens', 'password', 'O''Brien', 'hi@owenso.com', 'snewo531');
+INSERT INTO users (id, username, firstname, password, lastname, email, mfp_username) VALUES (uuid_generate_v1mc(), 'Owens', 'Owens', 'password', 'O''Brien', 'hi@owenso.com', 'snewo531');
