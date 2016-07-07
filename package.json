@@ -18,7 +18,14 @@
   },
   "homepage": "https://github.com/owenso/tdeecalc#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
+    "method-override": "^2.3.6",
     "mfp": "^0.5.6",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "mongoose": "^4.5.3",
+    "morgan": "^1.7.0",
+    "pg": "^6.0.1"
   }
 }
