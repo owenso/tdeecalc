@@ -17,7 +17,7 @@ CREATE TABLE bodytracking(
 	id SERIAL PRIMARY KEY,
 	bodyfat INTEGER,
     date_entered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	users_id INTEGER references users
+	users_id uuid references users
 );
 
 CREATE TABLE nutrition(
