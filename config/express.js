@@ -4,6 +4,9 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override');
 
+
+var connectionTest = require('./mfpConnectionTest')();
+
 module.exports = function(){
 
     var app = express();

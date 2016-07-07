@@ -1,6 +1,9 @@
 var mfp = require('mfp');
 var fs = require('fs');
 var moment = require ('moment');
+var connectionTest = require('../config/mfpConnectionTest.js')();
+
+
 
 var yesterday = moment().subtract(1, 'days')
 mfp.fetchSingleDate('snewo531', moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){

@@ -1,8 +1,6 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
-// var postgres = require('./config/postgres');
 var express = require('./config/express');
-
 
 var app = express();
 
