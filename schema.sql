@@ -11,6 +11,13 @@ CREATE TABLE users(
 	mfp_username VARCHAR(255)
 );
 
+CREATE TABLE bodytracking(
+	id SERIAL PRIMARY KEY,
+	bodyfat INTEGER,
+    date_entered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	users_id INTEGER references users
+);
+
 CREATE TABLE nutrition(
 	id SERIAL PRIMARY KEY,
     calories INTEGER,
