@@ -17,7 +17,7 @@ var scrapeAndInsert = function(user) {
             data.date = moment(data.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
             var dataSet = _.values(data);
             var dataDate = dataSet.pop();
-            client.query('INSERT INTO nutrition (calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (' + dataSet + ', \'' + dataDate + '\',' + user.id + ')', function(err, result) {
+            client.query('INSERT INTO nutrition (calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (' + dataSet + ', \'' + dataDate + '\',\'' + user.id + '\')', function(err, result) {
                 client.end();
                 if (err) {
                     console.log(err);
