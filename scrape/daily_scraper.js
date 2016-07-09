@@ -14,15 +14,15 @@ var yesterday = moment().subtract(1, 'days');
 var scrapeAndInsert = function(user) {
     mfp.fetchSingleDate(user.mfp_username, moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){
         if (data) {
-            data.date = moment(data.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
             var dataSet = _.values(data);
+            data.date = moment(data.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
             var dataDate = dataSet.pop();
             client.query('INSERT INTO nutrition (calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (' + dataSet + ', \'' + dataDate + '\',\'' + user.id + '\')', function(err, result) {
                 client.end();
                 if (err) {
                     console.log(err);
                 } else {
-                    //console.log(result);
+                    console.log(result);
                 }
             });
         } else {

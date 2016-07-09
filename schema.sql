@@ -22,7 +22,7 @@ CREATE TABLE bodytracking(
 
 CREATE TABLE nutrition(
 	id SERIAL PRIMARY KEY ,
-    calories INTEGER,
+    calories INTEGER NOT NULL,
     carbs INTEGER,
     fat INTEGER,
     protein INTEGER,
@@ -30,8 +30,8 @@ CREATE TABLE nutrition(
     sodium INTEGER,
     sugar INTEGER,
     fiber INTEGER,
-    date_entered DATE,
-	users_id uuid references users
+    date_entered DATE NOT NULL,
+	users_id uuid NOT NULL references users
 );
 
 INSERT INTO users (id, username, firstname, password, lastname, email, mfp_username) VALUES (uuid_generate_v1mc(), 'Owens', 'Owens', 'password', 'O''Brien', 'hi@owenso.com', 'snewo531');

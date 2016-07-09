@@ -23,9 +23,10 @@ module.exports = function(){
     app.use(methodOverride());
     app.use('/', express.static('public'));
 
-    // app.get('/', function(req,res) {
-    //     res.sendFile("/public/index.html", {"root": process.cwd()})
-    // })
+
+    //routes
+    require('../server/routes/mfp.api.routes.js')(app);
+
 
     return app;
 };
