@@ -7,6 +7,7 @@ var _ = require('underscore');
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 var config = require('../config/config');
 var connectionTest = require('../config/mfpConnectionTest.js')();
+var crypto = require('crypto');
 
 var yesterday = moment().subtract(1, 'days');
 
@@ -17,7 +18,8 @@ var scrapeAndInsert = function(user) {
             var dataSet = _.values(data);
             data.date = moment(data.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
             var dataDate = dataSet.pop();
-            client.query('INSERT INTO nutrition (calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (' + dataSet + ', \'' + dataDate + '\',\'' + user.id + '\')', function(err, result) {
+            var idHash = crypto.createHash('md5').update(data.date + user.mfp_username).digest("hex");
+            client.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',\'' + user.id + '\') ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',\'' + user.id + '\')', function(err, result) {
                 client.end();
                 if (err) {
                     console.log(err);

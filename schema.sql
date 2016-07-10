@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS nutrition CASCADE;
+DROP TABLE IF EXISTS bodytracking CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -16,12 +17,13 @@ CREATE TABLE users(
 CREATE TABLE bodytracking(
 	id SERIAL PRIMARY KEY,
 	bodyfat INTEGER,
+	weight INTEGER,
     date_entered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	users_id uuid references users
 );
 
 CREATE TABLE nutrition(
-	id SERIAL PRIMARY KEY ,
+	id uuid PRIMARY KEY,
     calories INTEGER NOT NULL,
     carbs INTEGER,
     fat INTEGER,

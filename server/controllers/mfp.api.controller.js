@@ -7,6 +7,7 @@ exports.newScrape = function(req, res) {
     var fs = require('fs');
     var moment = require('moment');
     var Pool = require('pg-pool');
+    var crypto = require('crypto');
 
     (function fetchMonth() {
         var monthAgo = moment().subtract(1, 'months');
@@ -18,11 +19,12 @@ exports.newScrape = function(req, res) {
                 var client = new pg.Client(config.pgConnectionString);
                 //client.connect();
                 _.each(data.data, function(dayNutrition) {
-                    console.log('looploop');
                     var dataSet = _.values(dayNutrition);
-                    dayNutrition.date = moment(data.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
+                    dayNutrition.date = moment(dayNutrition.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
+                    var idHash = crypto.createHash('md5').update(dayNutrition.date + req.params.mfpUsername).digest("hex");
                     var dataDate = dataSet.pop();
-                    pool.query('INSERT INTO nutrition (calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (' + dataSet + ', \'' + dataDate + '\', (SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\'));', function(err, result) {
+
+                    pool.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\')) ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\'))', function(err, result) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -49,7 +51,7 @@ exports.newScrape = function(req, res) {
 exports.getUserDataByMfpUsername = function(req, res) {
     var client = new pg.Client(config.pgConnectionString);
     client.connect();
-    var query = client.query('SELECT * FROM nutrition WHERE users_id = (SELECT id FROM users WHERE mfp_username = \'snewo531\');', function(err, data) {
+    var query = client.query('SELECT * FROM nutrition WHERE users_id = (SELECT id FROM users WHERE mfp_username = \''+req.params.username+'\');', function(err, data) {
         client.end();
         res.json(data.rows);
     });
