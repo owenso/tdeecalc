@@ -1,15 +1,15 @@
-var express = require('express'),
+const express = require('express'),
     morgan = require('morgan'),
     compress = require('compression'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
     path = require('path')
 
-var connectionTest = require('./mfpConnectionTest')();
+const connectionTest = require('./mfpConnectionTest')();
 
 module.exports = function(){
 
-    var app = express();
+    const app = express();
 
     if (process.env.NODE_ENV === 'local') {
         console.log('Running in local mode.');

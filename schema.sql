@@ -15,7 +15,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE bodytracking(
-	id SERIAL PRIMARY KEY,
+	id uuid PRIMARY KEY,
 	bodyfat INTEGER,
 	weight INTEGER,
     date_entered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

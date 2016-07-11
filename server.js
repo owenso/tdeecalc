@@ -1,10 +1,10 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
-var express = require('./config/express');
+const express = require('./config/express');
 
-var app = express();
+const app = express();
 
-var port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 
 app.listen(port);

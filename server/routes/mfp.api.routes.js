@@ -1,5 +1,5 @@
-var root = '/api/v1/mfp/';
-var mfpController = require('../controllers/mfp.api.controller');
+const root = '/api/v1/mfp/';
+const mfpController = require('../controllers/mfp.api.controller');
 
 module.exports = function(app) {
     app.get(root + 'new/:mfpUsername', mfpController.newScrape);
