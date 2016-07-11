@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users CASCADE;
+-- DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS nutrition CASCADE;
 DROP TABLE IF EXISTS bodytracking CASCADE;
 
@@ -16,10 +16,10 @@ CREATE TABLE users(
 
 CREATE TABLE bodytracking(
 	id uuid PRIMARY KEY,
-	bodyfat INTEGER,
-	weight INTEGER,
-    date_entered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	users_id uuid references users
+	bodyfat REAL,
+	weight REAL NOT NULL,
+    date_entered DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	users_id uuid NOT NULL references users
 );
 
 CREATE TABLE nutrition(
@@ -36,4 +36,4 @@ CREATE TABLE nutrition(
 	users_id uuid NOT NULL references users
 );
 
-INSERT INTO users (id, username, firstname, password, lastname, email, mfp_username) VALUES (uuid_generate_v1mc(), 'Owens', 'Owens', 'password', 'O''Brien', 'hi@owenso.com', 'snewo531');
+-- INSERT INTO users (id, username, firstname, password, lastname, email, mfp_username) VALUES (uuid_generate_v1mc(), 'Owens', 'Owens', 'password', 'O''Brien', 'hi@owenso.com', 'snewo531');
