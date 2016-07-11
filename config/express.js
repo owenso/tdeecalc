@@ -23,14 +23,15 @@ module.exports = function(){
     app.use(methodOverride());
     app.use('/', express.static('public'));
 
-    
+
     //routes
     require('../server/routes/mfp.api.routes.js')(app);
+    require('../server/routes/bodytracking.api.routes.js')(app);
 
 
     app.get('*', function (req, res){
-      res.sendFile(path.resolve('public', 'index.html'))
-    })
+      res.sendFile(path.resolve('public', 'index.html'));
+  });
 
 
 
