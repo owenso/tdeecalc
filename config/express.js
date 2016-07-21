@@ -3,7 +3,7 @@ const express = require('express'),
     compress = require('compression'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
-    path = require('path')
+    path = require('path');
 
 const connectionTest = require('./mfpConnectionTest')();
 
