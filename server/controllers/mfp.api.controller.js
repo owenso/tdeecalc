@@ -14,11 +14,11 @@ exports.newScrape = function(req, res) {
     (function fetchMonth() {
         let monthAgo = moment().subtract(1, 'months');
         let yesterday = moment().subtract(1, 'days');
-        let pool = new Pool(config.pgPoolSettings);
+        let pool = new Pool();
 
         mfp.fetchDateRange(req.params.mfpUsername, moment(monthAgo).format('YYYY-MM-DD'), moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){
             if (data) {
-                let client = new pg.Client();
+                //let client = new pg.Client(config.pgConnectionString);
                 //client.connect();
                 _.each(data.data, function(dayNutrition) {
                     let dataSet = _.values(dayNutrition);
