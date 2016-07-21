@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const config = require('../../config/config');
 const _ = require('underscore');
@@ -25,7 +25,8 @@ exports.newScrape = function(req, res) {
                     dayNutrition.date = moment(dayNutrition.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
                     let idHash = crypto.createHash('md5').update(dayNutrition.date + req.params.mfpUsername).digest("hex");
                     let dataDate = dataSet.pop();
-
+                    console.log('inserting')
+                    console.log(pool)
                     pool.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\')) ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\'))', function(err, result) {
                         if (err) {
                             console.log(err);
