@@ -17,7 +17,8 @@ exports.newScrape = function(req, res) {
 
         mfp.fetchDateRange(req.params.mfpUsername, moment(monthAgo).format('YYYY-MM-DD'), moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){
             if (data) {
-                let pool = new Pool(config.pgConnectionString);
+                console.log(config.pgPoolSettings)
+                let pool = new Pool(config.pgPoolSettings);
                 //let client = new pg.Client(config.pgConnectionString);
                 //client.connect();
                 console.log(pool)
