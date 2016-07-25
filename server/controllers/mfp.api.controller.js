@@ -58,9 +58,9 @@ exports.newScrape = function(req, res) {
 
 
 exports.getUserDataByMfpUsername = function(req, res) {
-    let client = new pg.Client(parse(config.pgConnectionString));
+    let client = new pg.Client(config.pgConnectionString);
     client.connect();
-    let query = client.query('SELECT * FROM nutrition WHERE users_id = (SELECT id FROM users WHERE mfp_username = \''+req.params.username+'\');', function(err, data) {
+    let query = client.query('SELECT * FROM nutrition WHERE users_id = (SELECT id FROM users WHERE mfp_username = \''+req.params.mfpUsername+'\');', function(err, data) {
         client.end();
         res.json(data.rows);
     });
