@@ -9,5 +9,6 @@ module.exports = {
         max: 30,
         min:4,
         idleTimeoutMillis: 1000
-    }
+    },
+    jwtSecret: process.env.JWT_SECRET
 };

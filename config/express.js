@@ -28,8 +28,9 @@ module.exports = function(){
 
 
     //routes
-    require('../server/routes/mfp.api.routes.js')(app);
-    require('../server/routes/bodytracking.api.routes.js')(app);
+    require('../server/routes/api/mfp.api.routes.js')(app);
+    require('../server/routes/api/bodytracking.api.routes.js')(app);
+    require('../server/routes/users.server.routes.js')(app);
 
 
     app.get('*', function (req, res){

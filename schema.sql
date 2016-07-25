@@ -6,12 +6,12 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users(
 	id uuid PRIMARY KEY,
-	username VARCHAR(255),
+	username VARCHAR(255) UNIQUE,
 	firstname VARCHAR(255),
 	password VARCHAR(255),
 	lastname VARCHAR(255),
-	email VARCHAR(255),
-	mfp_username VARCHAR(255)
+	email VARCHAR(255) UNIQUE,
+	mfp_username VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE bodytracking(

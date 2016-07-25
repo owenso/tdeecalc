@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('../../config/config');
+const config = require('../../../config/config');
 const _ = require('underscore');
 const pg = require('pg');
 const parse = require('pg-connection-string').parse;
