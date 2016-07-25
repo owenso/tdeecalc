@@ -20,6 +20,7 @@ exports.newScrape = function(req, res) {
                 let pool = new pg.Pool();
                 //let client = new pg.Client(config.pgConnectionString);
                 //client.connect();
+                console.log(pool)
                 _.each(data.data, function(dayNutrition) {
                     let dataSet = _.values(dayNutrition);
                     dayNutrition.date = moment(dayNutrition.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
@@ -34,10 +35,10 @@ exports.newScrape = function(req, res) {
                             console.log(result);
                         }
                     });
-                    pool.on('error', function (err, client) {
-                      console.error('idle client error', err.message, err.stack)
-                    })
                 });
+                pool.on('error', function (err, client) {
+                    console.error('idle client error', err.message, err.stack)
+                })
                 //client.end();
                 res.sendStatus(200);
             } else {
