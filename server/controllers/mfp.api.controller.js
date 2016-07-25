@@ -41,7 +41,6 @@ exports.newScrape = function(req, res) {
                 pool.on('error', function (err, client) {
                     console.error('idle client error', err.message, err.stack)
                 })
-                //client.end();
                 res.sendStatus(200);
             } else {
                 let error = moment().format('x') + ': Unable to scrape data for ' + yesterday;

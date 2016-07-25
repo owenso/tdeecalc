@@ -1,3 +1,4 @@
+'use strict'
 const mfp = require('mfp');
 const fs = require('fs');
 const moment = require('moment');
