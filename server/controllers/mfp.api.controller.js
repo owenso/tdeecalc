@@ -21,19 +21,35 @@ exports.newScrape = function(req, res) {
                 //let client = new pg.Client(config.pgConnectionString);
                 //client.connect();
                 console.log(pool)
-                _.each(data.data, function(dayNutrition) {
-                    let dataSet = _.values(dayNutrition);
-                    dayNutrition.date = moment(dayNutrition.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
-                    let idHash = crypto.createHash('md5').update(dayNutrition.date + req.params.mfpUsername).digest("hex");
-                    let dataDate = dataSet.pop();
-                    console.log('inserting')
-                    pool.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\')) ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\'))', function(err, result) {
-                        console.log('something happened')
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(result);
-                        }
+                pool.connect(function(err, client, done) {
+                  if(err) {
+                    return console.error('error fetching client from pool', err);
+                  }
+                //   client.query('SELECT $1::int AS number', ['1'], function(err, result) {
+                //     //call `done()` to release the client back to the pool
+                //     done();
+                //
+                //     if(err) {
+                //       return console.error('error running query', err);
+                //     }
+                //     console.log(result.rows[0].number);
+                //     //output: 1
+                //   });
+                    _.each(data.data, function(dayNutrition) {
+                        let dataSet = _.values(dayNutrition);
+                        dayNutrition.date = moment(dayNutrition.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
+                        let idHash = crypto.createHash('md5').update(dayNutrition.date + req.params.mfpUsername).digest("hex");
+                        let dataDate = dataSet.pop();
+                        console.log('inserting')
+
+                        client.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\')) ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\'))', function(err, result) {
+                            console.log('something happened')
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(result);
+                            }
+                        });
                     });
                 });
                 pool.on('error', function (err, client) {
