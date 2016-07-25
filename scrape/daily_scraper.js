@@ -12,7 +12,7 @@ const crypto = require('crypto');
 
 let yesterday = moment().subtract(1, 'days');
 
-
+console.log(process.env.NODE_ENV)
 let scrapeAndInsert = function(user) {
     mfp.fetchSingleDate(user.mfp_username, moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){
         if (data) {
@@ -21,7 +21,9 @@ let scrapeAndInsert = function(user) {
             data.date = moment(data.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
             let dataDate = dataSet.pop();
             let idHash = crypto.createHash('md5').update(data.date + user.mfp_username).digest("hex");
+            console.log('in here')
             clientTwo.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',\'' + user.id + '\') ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',\'' + user.id + '\')', function(err, result) {
+                console.log('something happened')
                 clientTwo.end();
                 if (err) {
                     console.log(err);
@@ -45,6 +47,7 @@ client.connect();
 let query = client.query('SELECT * FROM users WHERE mfp_username IS NOT NULL', function(err, user) {
     client.end();
     for (let i=0; i<user.rows.length;i++){
+        console.log(user.rows[i])
         scrapeAndInsert(user.rows[i]);
     }
 });
