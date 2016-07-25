@@ -8,7 +8,7 @@ exports.newScrape = function(req, res) {
     const mfp = require('mfp');
     const fs = require('fs');
     const moment = require('moment');
-    // const Pool = require('pg-pool');
+    const Pool = require('pg-pool');
     const crypto = require('crypto');
 
     (function fetchMonth() {
@@ -17,7 +17,7 @@ exports.newScrape = function(req, res) {
 
         mfp.fetchDateRange(req.params.mfpUsername, moment(monthAgo).format('YYYY-MM-DD'), moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){
             if (data) {
-                let pool = new pg.Pool(config.pgConnectionString);
+                let pool = new Pool(config.pgConnectionString);
                 //let client = new pg.Client(config.pgConnectionString);
                 //client.connect();
                 console.log(pool)
@@ -44,6 +44,7 @@ exports.newScrape = function(req, res) {
 
                         client.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\')) ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\'))', function(err, result) {
                             console.log('something happened')
+                            done();
                             if (err) {
                                 console.log(err);
                             } else {
