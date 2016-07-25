@@ -8,7 +8,7 @@ exports.newScrape = function(req, res) {
     const mfp = require('mfp');
     const fs = require('fs');
     const moment = require('moment');
-    const Pool = require('pg-pool');
+    // const Pool = require('pg-pool');
     const crypto = require('crypto');
 
     (function fetchMonth() {
@@ -17,7 +17,7 @@ exports.newScrape = function(req, res) {
 
         mfp.fetchDateRange(req.params.mfpUsername, moment(monthAgo).format('YYYY-MM-DD'), moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){
             if (data) {
-                let pool = new Pool();
+                let pool = new pg.Pool();
                 //let client = new pg.Client(config.pgConnectionString);
                 //client.connect();
                 _.each(data.data, function(dayNutrition) {
@@ -34,6 +34,9 @@ exports.newScrape = function(req, res) {
                             console.log(result);
                         }
                     });
+                    pool.on('error', function (err, client) {
+                      console.error('idle client error', err.message, err.stack)
+                    })
                 });
                 //client.end();
                 res.sendStatus(200);
