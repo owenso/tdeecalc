@@ -14,10 +14,10 @@ exports.newScrape = function(req, res) {
     (function fetchMonth() {
         let monthAgo = moment().subtract(1, 'months');
         let yesterday = moment().subtract(1, 'days');
-        let pool = new Pool();
 
         mfp.fetchDateRange(req.params.mfpUsername, moment(monthAgo).format('YYYY-MM-DD'), moment(yesterday).format('YYYY-MM-DD'), 'all', function(data){
             if (data) {
+                let pool = new Pool();
                 //let client = new pg.Client(config.pgConnectionString);
                 //client.connect();
                 _.each(data.data, function(dayNutrition) {
@@ -27,6 +27,7 @@ exports.newScrape = function(req, res) {
                     let dataDate = dataSet.pop();
                     console.log('inserting')
                     pool.query('INSERT INTO nutrition (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) VALUES (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\')) ON CONFLICT (id) DO UPDATE SET (id,calories,carbs,fat,protein,cholesterol,sodium,sugar,fiber,date_entered,users_id) = (\'' + idHash + '\',' + dataSet + ', \'' + dataDate + '\',(SELECT id FROM users WHERE mfp_username = \'' + req.params.mfpUsername + '\'))', function(err, result) {
+                        console.log('something happened')
                         if (err) {
                             console.log(err);
                         } else {

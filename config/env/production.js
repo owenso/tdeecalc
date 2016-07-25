@@ -3,7 +3,7 @@ module.exports = {
     pgPoolSettings: {
         database:'fitness',
         host: 'dokku-postgres-fitness',
-        user:process.env.DB_USERNAME,
+        username:process.env.DB_USERNAME,
         password:process.env.DB_PASSWORD,
         port: 5432,
         max: 30,
