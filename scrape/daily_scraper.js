@@ -1,5 +1,4 @@
 'use strict'
-process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 const mfp = require('mfp');
 const fs = require('fs');
 const moment = require('moment');
@@ -7,6 +6,7 @@ const pg = require('pg');
 const _ = require('underscore');
 const crypto = require('crypto');
 const Pool = require('pg-pool');
+process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 const config = require('../config/config');
 const connectionTest = require('../config/mfpConnectionTest.js')();
 
