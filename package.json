@@ -22,7 +22,6 @@
   "homepage": "https://github.com/owenso/tdeecalc#readme",
   "dependencies": {
     "babel-loader": "^6.2.4",
-    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "express": "^4.14.0",
