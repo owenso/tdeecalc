@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "engines": {
-      "node":"6.3.0"
-  },
   "scripts": {
     "webpack-watch": "webpack -w",
     "express-server": "node ./server",
